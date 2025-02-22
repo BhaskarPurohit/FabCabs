@@ -38,11 +38,12 @@ userSchema.methods.generateAuthToken = function(){
     return token;
 }
 
-userSchema.method.comparePassword = async function(){
+userSchema.method.comparePassword = async function(password){
     return await bcrypt.compare(password, this.password);
 }
 
-userSchema.statics.hashedPassword = async function(){
+userSchema.statics.hashedPassword = async function(password){
+    if (!password) throw new Error("Password is required for hashing");
     return await bcrypt.hash(password, 10);
 }
 

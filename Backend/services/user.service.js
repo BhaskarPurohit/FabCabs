@@ -16,4 +16,8 @@ const createUser = async function ({ firstname, lastname,  email, password }){
         email,
         password
     })
+
+    return user
 }
+
+module.exports = createUser

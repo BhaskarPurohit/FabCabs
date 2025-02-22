@@ -1,16 +1,26 @@
-const express = require("express")
-const cors = require("cors")
-const connectToDb = require("./db/db")
-const app = express()
-app.use(cors())
-connectToDb()
-const port = process.env.PORT
+const dotenv = require("dotenv")
+dotenv.config();
+const express = require("express");
+const cors = require("cors");
+const connectToDb = require("./db/db"); // Ensure correct path
+const userRoutes = require("./routes/user.routes"); // Adjust path if necessary
 
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-  });
-  
-  // Start the server
-  app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-  });
+const app = express();
+
+// Connect to the database
+connectToDb()
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Test route
+app.get("/", (req, res) => {
+    res.send("Hello, World!");
+});
+
+// API Routes
+app.use("/users", userRoutes);
+
+module.exports = app; // Export app for server.js
