@@ -33,3 +33,5 @@ const registerCaptain = async function (req,res,next){
 
     res.status(201).json({ token, captain })
 }
+
+module.exports = { registerCaptain }
