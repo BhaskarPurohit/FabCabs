@@ -24,6 +24,6 @@ app.get("/", (req, res) => {
 
 // API Routes
 app.use("/users", userRoutes);
-app.use('/captains',captainRoutes)
+app.use('/captain',captainRoutes)
 
 module.exports = app; // Export app for server.js

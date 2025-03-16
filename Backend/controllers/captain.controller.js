@@ -10,6 +10,10 @@ const registerCaptain = async function (req,res,next){
 
     const { fullname, email, password, vehicle } = req.body
 
+    //destructuing the nested fields
+    const { firstname, lastname } = fullname;
+    const { color, registrationPlate, capacityOfVehicle, vehicleType } = vehicle;
+
     const isCaptainExist = await captainModel.findOne({ email })
 
     if(isCaptainExist){
@@ -19,14 +23,14 @@ const registerCaptain = async function (req,res,next){
     const hashedPassword = await captainModel.hashPassword(password)
 
     const captain = await captainService.createCaptain({
-        firstname: fullname.firstname,
-        lastname: fullname.lastname,
+        firstname,
+        lastname,
         email,
         password: hashedPassword,
-        color:vehicle.color,
-        registrationPlate: vehicle.registrationPlate,
-        capacityOfVehicle: vehicle.capacityOfVehicle,
-        vehicleType:vehicle.vehicleType
+        color,
+        registrationPlate,
+        capacityOfVehicle,
+        vehicleType
     })
 
     const token = captain.generateAuthToken()

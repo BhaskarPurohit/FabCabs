@@ -25,4 +25,4 @@ const createCaptain = async function( firstname, lastname, email, password, colo
     return captain
 }
 
-module.exports = createCaptain
+module.exports = {createCaptain}
