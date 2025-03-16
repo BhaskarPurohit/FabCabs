@@ -18,4 +18,11 @@ router.post('/register', [
     
 )
 
+router.post('/login',[
+    body('email').isEmail().withMessage('Invalid Email'),
+    body('password').isLength({ min:6 }).withMessage('Minimum length of password must be 6')
+],
+    captainController.loginCaptain
+)
+
 module.exports = router
