@@ -1,8 +1,9 @@
 const captainModel = require("../models/captian.model")
 const captainService = require("../services/captain.service")
 const { validationResult, ExpressValidator } = require("express-validator")
+const blacklistTokenModel = require('../models/blacklistToken.model')
 
-const registerCaptain = async function (req,res,next){
+module.exports.registerCaptain = async function (req,res,next){
     const errors = validationResult(req)
     if(!errors.isEmpty){
         return res.status(400).json({ errors:errors.array() })
@@ -38,7 +39,7 @@ const registerCaptain = async function (req,res,next){
     res.status(201).json({ token, captain })
 }
 
-const loginCaptain = async function (req, res, next){
+module.exports.loginCaptain = async function (req, res, next){
     const errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({ errors: errors.array() })
@@ -65,4 +66,19 @@ const loginCaptain = async function (req, res, next){
     res.status(200).json({ token, captain })
 }
 
-module.exports = { registerCaptain, loginCaptain }
+module.exports.getCaptainProfile = async function (req, res){
+    res.status(200).json({ captain: req.captain})
+    
+}
+
+module.exports.logoutCaptain = async function (req, res){
+
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[1]
+
+    await blacklistTokenModel.create({ token })
+
+    res.clearCookie('token')
+
+    res.status(200).json({ message:'Logout Successful'})
+}
+
